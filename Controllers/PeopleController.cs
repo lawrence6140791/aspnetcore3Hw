@@ -22,14 +22,14 @@ namespace aspcore3hw
 
         // GET: api/People
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPerson()
+        public async Task<ActionResult<IEnumerable<Person>>> GetPersonAsync()
         {
             return await _context.Person.ToListAsync();
         }
 
         // GET: api/People/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Person>> GetPerson(int id)
+        public async Task<ActionResult<Person>> GetPersonAsync(int id)
         {
             var person = await _context.Person.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPerson(int id, Person person)
+        public async Task<IActionResult> PutPersonAsync(int id, Person person)
         {
             if (id != person.Id)
             {
@@ -77,7 +77,7 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Person>> PostPerson(Person person)
+        public async Task<ActionResult<Person>> PostPersonAsync(Person person)
         {
             _context.Person.Add(person);
             await _context.SaveChangesAsync();
@@ -87,7 +87,7 @@ namespace aspcore3hw
 
         // DELETE: api/People/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Person>> DeletePerson(int id)
+        public async Task<ActionResult<Person>> DeletePersonAsync(int id)
         {
             var person = await _context.Person.FindAsync(id);
             if (person == null)

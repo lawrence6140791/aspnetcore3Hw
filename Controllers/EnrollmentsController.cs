@@ -22,14 +22,14 @@ namespace aspcore3hw
 
         // GET: api/Enrollments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Enrollment>>> GetEnrollment()
+        public async Task<ActionResult<IEnumerable<Enrollment>>> GetEnrollmentAsync()
         {
             return await _context.Enrollment.ToListAsync();
         }
 
         // GET: api/Enrollments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Enrollment>> GetEnrollment(int id)
+        public async Task<ActionResult<Enrollment>> GetEnrollmentAsync(int id)
         {
             var enrollment = await _context.Enrollment.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEnrollment(int id, Enrollment enrollment)
+        public async Task<IActionResult> PutEnrollmentAsync(int id, Enrollment enrollment)
         {
             if (id != enrollment.EnrollmentId)
             {
@@ -77,7 +77,7 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Enrollment>> PostEnrollment(Enrollment enrollment)
+        public async Task<ActionResult<Enrollment>> PostEnrollmentAsync(Enrollment enrollment)
         {
             _context.Enrollment.Add(enrollment);
             await _context.SaveChangesAsync();
@@ -87,7 +87,7 @@ namespace aspcore3hw
 
         // DELETE: api/Enrollments/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Enrollment>> DeleteEnrollment(int id)
+        public async Task<ActionResult<Enrollment>> DeleteEnrollmentAsync(int id)
         {
             var enrollment = await _context.Enrollment.FindAsync(id);
             if (enrollment == null)

@@ -21,14 +21,14 @@ namespace aspcore3hw.models
 
         // GET: api/Departments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Department>>> GetDepartment()
+        public async Task<ActionResult<IEnumerable<Department>>> GetDepartmentAsync()
         {
             return await _context.Department.ToListAsync();
         }
 
         // GET: api/Departments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Department>> GetDepartment(int id)
+        public async Task<ActionResult<Department>> GetDepartmentAsync(int id)
         {
             var department = await _context.Department.FindAsync(id);
 
@@ -44,7 +44,7 @@ namespace aspcore3hw.models
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDepartment(int id, Department department)
+        public async Task<IActionResult> PutDepartmentAsync(int id, Department department)
         {
             if (id != department.DepartmentId)
             {
@@ -76,7 +76,7 @@ namespace aspcore3hw.models
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Department>> PostDepartment(Department department)
+        public async Task<ActionResult<Department>> PostDepartmentAsync(Department department)
         {
             _context.Department.Add(department);
             await _context.SaveChangesAsync();
@@ -86,7 +86,7 @@ namespace aspcore3hw.models
 
         // DELETE: api/Departments/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Department>> DeleteDepartment(int id)
+        public async Task<ActionResult<Department>> DeleteDepartmentAsync(int id)
         {
             var department = await _context.Department.FindAsync(id);
             if (department == null)

@@ -22,14 +22,14 @@ namespace aspcore3hw
 
         // GET: api/CourseInstructors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CourseInstructor>>> GetCourseInstructor()
+        public async Task<ActionResult<IEnumerable<CourseInstructor>>> GetCourseInstructorAsync()
         {
             return await _context.CourseInstructor.ToListAsync();
         }
 
         // GET: api/CourseInstructors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CourseInstructor>> GetCourseInstructor(int id)
+        public async Task<ActionResult<CourseInstructor>> GetCourseInstructorAsync(int id)
         {
             var courseInstructor = await _context.CourseInstructor.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourseInstructor(int id, CourseInstructor courseInstructor)
+        public async Task<IActionResult> PutCourseInstructorAsync(int id, CourseInstructor courseInstructor)
         {
             if (id != courseInstructor.CourseId)
             {
@@ -77,7 +77,7 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<CourseInstructor>> PostCourseInstructor(CourseInstructor courseInstructor)
+        public async Task<ActionResult<CourseInstructor>> PostCourseInstructorAsync(CourseInstructor courseInstructor)
         {
             _context.CourseInstructor.Add(courseInstructor);
             try
@@ -101,7 +101,7 @@ namespace aspcore3hw
 
         // DELETE: api/CourseInstructors/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<CourseInstructor>> DeleteCourseInstructor(int id)
+        public async Task<ActionResult<CourseInstructor>> DeleteCourseInstructorAsync(int id)
         {
             var courseInstructor = await _context.CourseInstructor.FindAsync(id);
             if (courseInstructor == null)

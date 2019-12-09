@@ -22,14 +22,14 @@ namespace aspcore3hw
 
         // GET: api/OfficeAssignments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OfficeAssignment>>> GetOfficeAssignment()
+        public async Task<ActionResult<IEnumerable<OfficeAssignment>>> GetOfficeAssignmentAsync()
         {
             return await _context.OfficeAssignment.ToListAsync();
         }
 
         // GET: api/OfficeAssignments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OfficeAssignment>> GetOfficeAssignment(int id)
+        public async Task<ActionResult<OfficeAssignment>> GetOfficeAssignmentAsync(int id)
         {
             var officeAssignment = await _context.OfficeAssignment.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOfficeAssignment(int id, OfficeAssignment officeAssignment)
+        public async Task<IActionResult> PutOfficeAssignmentAsync(int id, OfficeAssignment officeAssignment)
         {
             if (id != officeAssignment.InstructorId)
             {
@@ -77,7 +77,7 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<OfficeAssignment>> PostOfficeAssignment(OfficeAssignment officeAssignment)
+        public async Task<ActionResult<OfficeAssignment>> PostOfficeAssignmentAsync(OfficeAssignment officeAssignment)
         {
             _context.OfficeAssignment.Add(officeAssignment);
             try
@@ -101,7 +101,7 @@ namespace aspcore3hw
 
         // DELETE: api/OfficeAssignments/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<OfficeAssignment>> DeleteOfficeAssignment(int id)
+        public async Task<ActionResult<OfficeAssignment>> DeleteOfficeAssignmentAsync(int id)
         {
             var officeAssignment = await _context.OfficeAssignment.FindAsync(id);
             if (officeAssignment == null)

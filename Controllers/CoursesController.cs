@@ -22,14 +22,14 @@ namespace aspcore3hw
 
         // GET: api/Courses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
+        public async Task<ActionResult<IEnumerable<Course>>> GetCourseAsync()
         {
             return await _context.Course.ToListAsync();
         }
 
         // GET: api/Courses/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> GetCourse(int id)
+        public async Task<ActionResult<Course>> GetCourseAsync(int id)
         {
             var course = await _context.Course.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourse(int id, Course course)
+        public async Task<IActionResult> PutCourseAsync(int id, Course course)
         {
             if (id != course.CourseId)
             {
@@ -77,7 +77,7 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Course>> PostCourse(Course course)
+        public async Task<ActionResult<Course>> PostCourseAsync(Course course)
         {
             _context.Course.Add(course);
             await _context.SaveChangesAsync();
@@ -87,7 +87,7 @@ namespace aspcore3hw
 
         // DELETE: api/Courses/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Course>> DeleteCourse(int id)
+        public async Task<ActionResult<Course>> DeleteCourseAsync(int id)
         {
             var course = await _context.Course.FindAsync(id);
             if (course == null)
