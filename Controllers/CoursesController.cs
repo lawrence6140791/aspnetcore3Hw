@@ -22,14 +22,14 @@ namespace aspcore3hw
 
         // GET: api/Courses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourseAsync()
+        public async Task<ActionResult<IEnumerable<Course>>> GetCourse1Async()
         {
             return await _context.Course.ToListAsync();
         }
 
         // GET: api/Courses/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> GetCourseAsync(int id)
+        public async Task<ActionResult<Course>> GetCourse1Async(int id)
         {
             var course = await _context.Course.FindAsync(id);
 
@@ -84,7 +84,7 @@ namespace aspcore3hw
                 return BadRequest();
             }
             
-            if (course.CourseId.Equals(null)) 
+            if (course.CourseId.Equals(0)) 
             {
                 await _context.Course.AddAsync(course);
                 await _context.SaveChangesAsync();
@@ -94,7 +94,7 @@ namespace aspcore3hw
                 return BadRequest();
             }           
 
-            return CreatedAtAction("GetCourse", new { id = course.CourseId }, course);
+            return CreatedAtAction("GetCourse1", new { id = course.CourseId }, course);
         }
 
         // DELETE: api/Courses/5
