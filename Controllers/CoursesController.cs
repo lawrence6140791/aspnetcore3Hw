@@ -79,8 +79,20 @@ namespace aspcore3hw
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourseAsync(Course course)
         {
-            _context.Course.Add(course);
-            await _context.SaveChangesAsync();
+            if( !ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            
+            if (course.CourseId.Equals(null)) 
+            {
+                await _context.Course.AddAsync(course);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                return BadRequest();
+            }           
 
             return CreatedAtAction("GetCourse", new { id = course.CourseId }, course);
         }
@@ -94,7 +106,6 @@ namespace aspcore3hw
             {
                 return NotFound();
             }
-
             _context.Course.Remove(course);
             await _context.SaveChangesAsync();
 
