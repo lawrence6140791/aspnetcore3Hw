@@ -51,23 +51,8 @@ namespace aspcore3hw.models
                 return BadRequest();
             }
 
-            _context.Entry(department).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DepartmentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            //預存程序
+            var count = await _context.Database.ExecuteSqlInterpolatedAsync($"EXECUTE Department_Update {department.DepartmentId},{department.Name},{department.Budget},{department.StartDate},{department.InstructorId},{department.RowVersion}");
 
             return NoContent();
         }
@@ -78,28 +63,36 @@ namespace aspcore3hw.models
         [HttpPost]
         public async Task<ActionResult<Department>> PostDepartmentAsync(Department department)
         {
-            _context.Department.Add(department);
-            await _context.SaveChangesAsync();
+            if( !ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            //預存程序
+            var sp_department  = await(
+                                 from a in _context.Department.FromSqlInterpolated($"EXECUTE Department_Insert {department.Name},{department.Budget},{department.StartDate},{department.InstructorId}")
+                                 select new { a.DepartmentId}
+                                 ).ToListAsync();
 
-            return CreatedAtAction("GetDepartment", new { id = department.DepartmentId }, department);
+            return CreatedAtAction("GetDepartment", new { id = department.DepartmentId }, sp_department);
         }
 
-        // DELETE: api/Departments/5
+        // DELETE: api/5/0x00000000000007D4
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Department>> DeleteDepartmentAsync(int id)
+        public async Task<IActionResult> DeleteDepartmentAsync(int id, Department department)
         {
-            var department = await _context.Department.FindAsync(id);
-            if (department == null)
+            if (!DepartmentVersionExists(id,department.RowVersion))
             {
                 return NotFound();
-            }
+            }    
+            //直接執行sql語句(預存程序)
+            var count = await _context.Database.ExecuteSqlInterpolatedAsync($"EXECUTE Department_Delete {id},{department.RowVersion}");
 
-            _context.Department.Remove(department);
-            await _context.SaveChangesAsync();
-
-            return department;
+            return new JsonResult(count);
         }
-
+        private bool DepartmentVersionExists(int id,byte[] version)
+        {
+            return _context.Department.Any(e => e.DepartmentId == id && e.RowVersion == version);
+        }
         private bool DepartmentExists(int id)
         {
             return _context.Department.Any(e => e.DepartmentId == id);
