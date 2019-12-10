@@ -19,17 +19,26 @@ namespace aspcore3hw
         {
             _context = context;
         }
-
-        // GET: api/Courses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourse1Async()
+        public async Task<ActionResult<IEnumerable<Course>>> GetCourseAsync()
         {
             return await _context.Course.ToListAsync();
         }
-
+        // GET: api/Courses/students/count
+        [HttpGet("{students}/{count}")]
+        public async Task<ActionResult<IEnumerable<VwCourseStudentCount>>> GetVwCourseStudentCountAsync()
+        {
+            return await _context.VwCourseStudentCount.ToListAsync();
+        }
+        // GET: api/Courses/students
+        [HttpGet("{students}")]
+        public async Task<ActionResult<IEnumerable<VwCourseStudents>>> GetVwCourseStudentsAsync()
+        {
+            return await _context.VwCourseStudents.ToListAsync();
+        }
         // GET: api/Courses/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> GetCourse1Async(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Course>> GetCourseAsync(int id)
         {
             var course = await _context.Course.FindAsync(id);
 
@@ -40,7 +49,6 @@ namespace aspcore3hw
 
             return course;
         }
-
         // PUT: api/Courses/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -94,7 +102,7 @@ namespace aspcore3hw
                 return BadRequest();
             }           
 
-            return CreatedAtAction("GetCourse1", new { id = course.CourseId }, course);
+            return CreatedAtAction("GetCourse", new { id = course.CourseId }, course);
         }
 
         // DELETE: api/Courses/5
