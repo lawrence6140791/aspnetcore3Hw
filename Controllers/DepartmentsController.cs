@@ -25,9 +25,14 @@ namespace aspcore3hw.models
         {
             return await _context.Department.ToListAsync();
         }
-
+        [HttpGet("{DepartmentCourseCount}")]
+        public async Task<ActionResult<IEnumerable<VwDepartmentCourseCount>>> GetVwDepartmentCourseCountAsync(int id)
+        {
+            return await _context.VwDepartmentCourseCount.FromSqlInterpolated($"SELECT * FROM vwDepartmentCourseCount").ToListAsync();
+        }
+        
         // GET: api/Departments/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Department>> GetDepartmentAsync(int id)
         {
             var department = await _context.Department.FindAsync(id);
