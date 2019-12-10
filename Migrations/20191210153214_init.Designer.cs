@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using aspcore3hw.models;
 
 namespace aspcore3hw.Migrations
 {
     [DbContext(typeof(ContosouniversityContext))]
-    partial class ContosouniversityContextModelSnapshot : ModelSnapshot
+    [Migration("20191210153214_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,6 +32,10 @@ namespace aspcore3hw.Migrations
                     b.Property<int>("Credits")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DateModified")
+                        .HasColumnName("DateModified")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("DepartmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("DepartmentID")
@@ -37,6 +43,7 @@ namespace aspcore3hw.Migrations
                         .HasDefaultValueSql("((1))");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
