@@ -71,10 +71,9 @@ namespace aspcore3hw.Migrations
             //    {
             //        CourseID = table.Column<int>(nullable: false)
             //            .Annotation("SqlServer:Identity", "1, 1"),
-            //        Title = table.Column<string>(maxLength: 50, nullable: false),
+            //        Title = table.Column<string>(maxLength: 50, nullable: true),
             //        Credits = table.Column<int>(nullable: false),
-            //        DepartmentID = table.Column<int>(nullable: false, defaultValueSql: "((1))"),
-            //        DateModified = table.Column<DateTime>(nullable: false)
+            //        DepartmentID = table.Column<int>(nullable: false, defaultValueSql: "((1))")
             //    },
             //    constraints: table =>
             //    {

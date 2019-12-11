@@ -10,8 +10,8 @@ using aspcore3hw.models;
 namespace aspcore3hw.Migrations
 {
     [DbContext(typeof(ContosouniversityContext))]
-    [Migration("20191210153214_init")]
-    partial class init
+    [Migration("20191211131420_Course_DateModified")]
+    partial class Course_DateModified
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,8 +33,7 @@ namespace aspcore3hw.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateModified")
-                        .HasColumnName("DateModified")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("DepartmentId")
                         .ValueGeneratedOnAdd()
@@ -43,7 +42,6 @@ namespace aspcore3hw.Migrations
                         .HasDefaultValueSql("((1))");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 

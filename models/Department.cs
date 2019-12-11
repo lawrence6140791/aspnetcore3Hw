@@ -27,6 +27,9 @@ namespace aspcore3hw.models
         [Required]
         public byte[] RowVersion { get; set; }
 
+        [Column(TypeName = "datetime")]
+        public DateTime DateModified { get; set; }
+
         [ForeignKey(nameof(InstructorId))]
         [InverseProperty(nameof(Person.Department))]
         public virtual Person Instructor { get; set; }

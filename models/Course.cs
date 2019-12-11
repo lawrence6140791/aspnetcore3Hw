@@ -17,14 +17,13 @@ namespace aspcore3hw.models
         [Key]
         [Column("CourseID")]
         public int CourseId { get; set; }
-        [Required]
         [StringLength(50)]
         public string Title { get; set; }
-        [Required]
         public int Credits { get; set; }
-        [Required]
         [Column("DepartmentID")]
         public int DepartmentId { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime DateModified { get; set; }
 
         [ForeignKey(nameof(DepartmentId))]
         [InverseProperty("Course")]
