@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using aspcore3hw.models;
 
 namespace aspcore3hw.Migrations
 {
     [DbContext(typeof(ContosouniversityContext))]
-    partial class ContosouniversityContextModelSnapshot : ModelSnapshot
+    [Migration("20191211135134_Course_Department_Person_IsDeleted")]
+    partial class Course_Department_Person_IsDeleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -24,14 +24,14 @@ namespace aspcore3hw
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person>>> GetPersonAsync()
         {
-            return await _context.Person.ToListAsync();
+            return await _context.Person.Where(e => !e.IsDeleted).ToListAsync();
         }
 
         // GET: api/People/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Person>> GetPersonAsync(int id)
         {
-            var person = await _context.Person.FindAsync(id);
+            var person = await _context.Person.FirstOrDefaultAsync(e => e.Id.Equals(id) && !e.IsDeleted);
 
             if (person == null)
             {
@@ -89,13 +89,15 @@ namespace aspcore3hw
         [HttpDelete("{id}")]
         public async Task<ActionResult<Person>> DeletePersonAsync(int id)
         {
-            var person = await _context.Person.FindAsync(id);
+            var person = await _context.Person.FirstOrDefaultAsync(e => e.Id.Equals(id) && !e.IsDeleted);
+
             if (person == null)
             {
                 return NotFound();
             }
-
-            _context.Person.Remove(person);
+            
+            person.IsDeleted = true;
+            
             await _context.SaveChangesAsync();
 
             return person;

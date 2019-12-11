@@ -23,7 +23,7 @@ namespace aspcore3hw.models
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartmentAsync()
         {
-            return await _context.Department.ToListAsync();
+            return await _context.Department.Where(e => !e.IsDeleted).ToListAsync();
         }
         [HttpGet("{DepartmentCourseCount}")]
         public async Task<ActionResult<IEnumerable<VwDepartmentCourseCount>>> GetVwDepartmentCourseCountAsync(int id)
@@ -35,7 +35,7 @@ namespace aspcore3hw.models
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Department>> GetDepartmentAsync(int id)
         {
-            var department = await _context.Department.FindAsync(id);
+            var department = await _context.Department.FirstOrDefaultAsync(e => e.DepartmentId.Equals(id) && !e.IsDeleted);
 
             if (department == null)
             {
@@ -94,9 +94,24 @@ namespace aspcore3hw.models
 
             return new JsonResult(count);
         }
+        [HttpDelete("{id}/tag")]
+        public async Task<ActionResult<Department>> TagDepartmentAsync(int id)
+        {
+            var department = await _context.Department.SingleOrDefaultAsync(e => e.DepartmentId.Equals(id) && !e.IsDeleted);
+            if (department == null)
+            {
+                return NotFound();
+            }
+            //註記刪除標誌
+            department.IsDeleted = true;
+
+            await _context.SaveChangesAsync();
+
+            return department;
+        }
         private bool DepartmentVersionExists(int id,byte[] version)
         {
-            return _context.Department.Any(e => e.DepartmentId == id && e.RowVersion == version);
+            return _context.Department.Any(e => e.DepartmentId == id && e.RowVersion == version && !e.IsDeleted);
         }
         private bool DepartmentExists(int id)
         {

@@ -24,6 +24,8 @@ namespace aspcore3hw.models
         public int DepartmentId { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime DateModified { get; set; }
+        [Column(TypeName = "bit")]
+        public bool IsDeleted { get; set; }
 
         [ForeignKey(nameof(DepartmentId))]
         [InverseProperty("Course")]

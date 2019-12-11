@@ -34,6 +34,8 @@ namespace aspcore3hw.models
 
         [Column(TypeName = "datetime")]
         public DateTime DateModified { get; set; }
+        [Column(TypeName = "bit")]
+        public bool IsDeleted { get; set; }
 
         [InverseProperty("Instructor")]
         public virtual OfficeAssignment OfficeAssignment { get; set; }

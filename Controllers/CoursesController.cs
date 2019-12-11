@@ -22,7 +22,7 @@ namespace aspcore3hw
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourseAsync()
         {
-            return await _context.Course.ToListAsync();
+            return await _context.Course.Where(e => !e.IsDeleted).ToListAsync();
         }
         // GET: api/Courses/students/count
         [HttpGet("{students}/{count}")]
@@ -40,7 +40,7 @@ namespace aspcore3hw
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Course>> GetCourseAsync(int id)
         {
-            var course = await _context.Course.FindAsync(id);
+            var course = await _context.Course.FirstOrDefaultAsync(e => e.CourseId.Equals(id) && !e.IsDeleted);
 
             if (course == null)
             {
@@ -109,12 +109,16 @@ namespace aspcore3hw
         [HttpDelete("{id}")]
         public async Task<ActionResult<Course>> DeleteCourseAsync(int id)
         {
-            var course = await _context.Course.FindAsync(id);
+
+            var course = await _context.Course.FirstOrDefaultAsync(e => e.CourseId.Equals(id) && !e.IsDeleted);
+
             if (course == null)
             {
                 return NotFound();
             }
-            _context.Course.Remove(course);
+
+            course.IsDeleted = true;
+
             await _context.SaveChangesAsync();
 
             return course;
