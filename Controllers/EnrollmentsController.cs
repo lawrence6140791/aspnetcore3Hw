@@ -29,6 +29,9 @@ namespace aspcore3hw
 
         // GET: api/Enrollments/5
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Enrollment>> GetEnrollmentAsync(int id)
         {
             var enrollment = await _context.Enrollment.FindAsync(id);
@@ -45,6 +48,10 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> PutEnrollmentAsync(int id, Enrollment enrollment)
         {
             if (id != enrollment.EnrollmentId)
@@ -77,16 +84,21 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Enrollment>> PostEnrollmentAsync(Enrollment enrollment)
         {
-            _context.Enrollment.Add(enrollment);
+            await _context.Enrollment.AddAsync(enrollment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEnrollment", new { id = enrollment.EnrollmentId }, enrollment);
+            return CreatedAtAction(nameof(GetEnrollmentAsync), new { id = enrollment.EnrollmentId }, enrollment);
         }
 
         // DELETE: api/Enrollments/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Enrollment>> DeleteEnrollmentAsync(int id)
         {
             var enrollment = await _context.Enrollment.FindAsync(id);

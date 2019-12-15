@@ -47,7 +47,7 @@ namespace aspcore3hw.models
                     )
                    ) 
                 {
-                    entry.CurrentValues.SetValues(new { DateModified = DateTime.Now  }  );
+                    //entry.CurrentValues.SetValues(new { DateModified = DateTime.Now  }  );
                 }
 
             }
@@ -66,7 +66,7 @@ namespace aspcore3hw.models
                     )
                    )
                 {
-                    entry.CurrentValues.SetValues(new { DateModified = DateTime.Now });
+                    //entry.CurrentValues.SetValues(new { DateModified = DateTime.Now });
                 }
 
             }

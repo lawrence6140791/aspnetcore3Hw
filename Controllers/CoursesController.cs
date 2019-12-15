@@ -9,6 +9,17 @@ using aspcore3hw.models;
 
 namespace aspcore3hw
 {
+    public class CourseDate
+    {
+        public int id { get; set; }
+        public DateTime uptDate { get; set; }
+
+        public  CourseDate()
+        {
+            id = 1;
+            uptDate = Convert.ToDateTime("1911/01/14");
+        }
+    }
     [Route("api/[controller]")]
     [ApiController]
     public class CoursesController : ControllerBase
@@ -38,6 +49,9 @@ namespace aspcore3hw
         }
         // GET: api/Courses/5
         [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Course>> GetCourseAsync(int id)
         {
             var course = await _context.Course.FirstOrDefaultAsync(e => e.CourseId.Equals(id) && !e.IsDeleted);
@@ -49,13 +63,35 @@ namespace aspcore3hw
 
             return course;
         }
+        [HttpPatch]
+        public async Task<IActionResult> PatchCourseAsync([FromServices]CourseDate courseDate)
+        {
+            var course = await this._context.Course.FindAsync(courseDate.id);
+
+            if (!await TryUpdateModelAsync(course))
+            {
+                return BadRequest();
+            }
+
+            course.DateModified = courseDate.uptDate;
+
+            await _context.SaveChangesAsync();
+
+            return new JsonResult(courseDate);
+        }
         // PUT: api/Courses/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourseAsync(int id, Course course)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> PutCourseAsync(int id)
         {
-            if (id != course.CourseId)
+            var course = await this._context.Course.FindAsync(id);
+
+            if(!await TryUpdateModelAsync(course))
             {
                 return BadRequest();
             }
@@ -85,6 +121,9 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Course>> PostCourseAsync(Course course)
         {
             if( !ModelState.IsValid)
@@ -102,11 +141,14 @@ namespace aspcore3hw
                 return BadRequest();
             }           
 
-            return CreatedAtAction("GetCourse", new { id = course.CourseId }, course);
+            return CreatedAtAction(nameof(GetCourseAsync), new { id = course.CourseId }, course);
         }
 
         // DELETE: api/Courses/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Course>> DeleteCourseAsync(int id)
         {
 

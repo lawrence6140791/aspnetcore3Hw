@@ -23,6 +23,7 @@ namespace aspcore3hw.models
         [Column("DepartmentID")]
         public int DepartmentId { get; set; }
         [Column(TypeName = "datetime")]
+        [Required]
         public DateTime DateModified { get; set; }
         [Column(TypeName = "bit")]
         public bool IsDeleted { get; set; }

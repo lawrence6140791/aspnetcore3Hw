@@ -29,6 +29,9 @@ namespace aspcore3hw
 
         // GET: api/CourseInstructors/5
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<CourseInstructor>> GetCourseInstructorAsync(int id)
         {
             var courseInstructor = await _context.CourseInstructor.FindAsync(id);
@@ -45,6 +48,10 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> PutCourseInstructorAsync(int id, CourseInstructor courseInstructor)
         {
             if (id != courseInstructor.CourseId)
@@ -77,9 +84,12 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<CourseInstructor>> PostCourseInstructorAsync(CourseInstructor courseInstructor)
         {
-            _context.CourseInstructor.Add(courseInstructor);
+            await _context.CourseInstructor.AddAsync(courseInstructor);
             try
             {
                 await _context.SaveChangesAsync();
@@ -96,11 +106,14 @@ namespace aspcore3hw
                 }
             }
 
-            return CreatedAtAction("GetCourseInstructor", new { id = courseInstructor.CourseId }, courseInstructor);
+            return CreatedAtAction(nameof(GetCourseInstructorAsync), new { id = courseInstructor.CourseId }, courseInstructor);
         }
 
         // DELETE: api/CourseInstructors/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<CourseInstructor>> DeleteCourseInstructorAsync(int id)
         {
             var courseInstructor = await _context.CourseInstructor.FindAsync(id);

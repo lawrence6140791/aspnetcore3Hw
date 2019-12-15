@@ -31,6 +31,12 @@ namespace aspcore3hw
             services.AddDbContext<ContosouniversityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+
+            // Register the Swagger services
+            services.AddSwaggerDocument();
+
+            services.AddScoped<CourseDate>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,7 +44,12 @@ namespace aspcore3hw
         {
             if (env.IsDevelopment())
             {
+                //app.UseExceptionHandler("/Error");
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                
             }
 
             app.UseHttpsRedirection();
@@ -46,6 +57,10 @@ namespace aspcore3hw
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // Register the Swagger generator and the Swagger UI middlewares
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseEndpoints(endpoints =>
             {

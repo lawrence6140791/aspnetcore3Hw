@@ -33,6 +33,9 @@ namespace aspcore3hw.models
         
         // GET: api/Departments/5
         [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Department>> GetDepartmentAsync(int id)
         {
             var department = await _context.Department.FirstOrDefaultAsync(e => e.DepartmentId.Equals(id) && !e.IsDeleted);
@@ -49,6 +52,9 @@ namespace aspcore3hw.models
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> PutDepartmentAsync(int id, Department department)
         {
             if (id != department.DepartmentId)
@@ -66,6 +72,9 @@ namespace aspcore3hw.models
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Department>> PostDepartmentAsync(Department department)
         {
             if( !ModelState.IsValid)
@@ -78,7 +87,7 @@ namespace aspcore3hw.models
                                  select new { a.DepartmentId}
                                  ).ToListAsync();
 
-            return CreatedAtAction("GetDepartment", new { id = department.DepartmentId }, sp_department);
+            return CreatedAtAction(nameof(GetDepartmentAsync), new { id = department.DepartmentId }, sp_department);
         }
 
         // DELETE: api/5/0x00000000000007D4
@@ -95,6 +104,9 @@ namespace aspcore3hw.models
             return new JsonResult(count);
         }
         [HttpDelete("{id}/tag")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Department>> TagDepartmentAsync(int id)
         {
             var department = await _context.Department.SingleOrDefaultAsync(e => e.DepartmentId.Equals(id) && !e.IsDeleted);

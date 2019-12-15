@@ -29,6 +29,9 @@ namespace aspcore3hw
 
         // GET: api/People/5
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Person>> GetPersonAsync(int id)
         {
             var person = await _context.Person.FirstOrDefaultAsync(e => e.Id.Equals(id) && !e.IsDeleted);
@@ -45,6 +48,10 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> PutPersonAsync(int id, Person person)
         {
             if (id != person.Id)
@@ -77,16 +84,21 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Person>> PostPersonAsync(Person person)
         {
-            _context.Person.Add(person);
+            await _context.Person.AddAsync(person);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPerson", new { id = person.Id }, person);
+            return CreatedAtAction(nameof(GetPersonAsync), new { id = person.Id }, person);
         }
 
         // DELETE: api/People/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Person>> DeletePersonAsync(int id)
         {
             var person = await _context.Person.FirstOrDefaultAsync(e => e.Id.Equals(id) && !e.IsDeleted);

@@ -29,6 +29,9 @@ namespace aspcore3hw
 
         // GET: api/OfficeAssignments/5
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<OfficeAssignment>> GetOfficeAssignmentAsync(int id)
         {
             var officeAssignment = await _context.OfficeAssignment.FindAsync(id);
@@ -45,6 +48,10 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> PutOfficeAssignmentAsync(int id, OfficeAssignment officeAssignment)
         {
             if (id != officeAssignment.InstructorId)
@@ -77,9 +84,12 @@ namespace aspcore3hw
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<OfficeAssignment>> PostOfficeAssignmentAsync(OfficeAssignment officeAssignment)
         {
-            _context.OfficeAssignment.Add(officeAssignment);
+            await _context.OfficeAssignment.AddAsync(officeAssignment);
             try
             {
                 await _context.SaveChangesAsync();
@@ -96,11 +106,14 @@ namespace aspcore3hw
                 }
             }
 
-            return CreatedAtAction("GetOfficeAssignment", new { id = officeAssignment.InstructorId }, officeAssignment);
+            return CreatedAtAction(nameof(GetOfficeAssignmentAsync), new { id = officeAssignment.InstructorId }, officeAssignment);
         }
 
         // DELETE: api/OfficeAssignments/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<OfficeAssignment>> DeleteOfficeAssignmentAsync(int id)
         {
             var officeAssignment = await _context.OfficeAssignment.FindAsync(id);
